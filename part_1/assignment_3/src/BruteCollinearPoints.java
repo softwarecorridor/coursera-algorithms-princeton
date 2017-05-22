@@ -1,8 +1,10 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class BruteCollinearPoints {
 
-	ArrayList<LineSegment> segments = new ArrayList<>();
+	private ArrayList<LineSegment> segments = new ArrayList<>();
 	
 	
 	/**
@@ -22,22 +24,43 @@ public class BruteCollinearPoints {
 			throw new NullPointerException();
 		}
 		
-		if(points.length>3)
+		Arrays.sort(points, points[0].slopeOrder());
+		
+		
+		for (int p = 0; p<points.length-3;p++)
 		{
-			segments.add(new LineSegment(points[0], points[1]));
 			
-			for(int i = 2; i<points.length; i++)
+			Point pPoint = points[p];
+			System.out.println(pPoint.toString());
+			for (int q = 1; q<points.length-2;q++)
 			{
-				Point p = points[i];
-				for(int j = 0; j< segments.size(); j++)
+				
+				Point qPoint = points[q];
+				double p_q = pPoint.slopeTo(qPoint);
+				
+				for (int r = 2; r<points.length-1;r++)
 				{
-					if
+					Point rPoint = points[r];
+					double p_r = pPoint.slopeTo(rPoint);	
+					if(p_r == p_q)
+					{
+						for (int s = 3; s<points.length;s++)
+						{
+							
+							Point sPoint = points[s];
+							double p_s = pPoint.slopeTo(sPoint);
+							
+							if (p_r == p_s)
+							{
+								segments.add(new LineSegment(pPoint, sPoint));
+							}
+						}
+					}
 				}
 			}
-			
 		}
-		
 	}
+	
 
 	/**
 	 * 
@@ -58,5 +81,8 @@ public class BruteCollinearPoints {
 	public LineSegment[] segments() {
 		return segments.toArray(new LineSegment[0]);
 	};
+	
+	
+	
 
 }
