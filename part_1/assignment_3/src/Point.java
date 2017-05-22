@@ -58,7 +58,7 @@ public class Point implements Comparable<Point> {
     	int num = (y1 - y0);
     	int dem = (x1 - x0);
     	
-    	if (num == dem)
+    	if (x0 == x1 && y0 == y1)
     	{
     		return Double.NEGATIVE_INFINITY;
     	}else if (num == 0) { // horizontal
