@@ -32,19 +32,19 @@ public class BruteCollinearPoints {
 			
 			Point pPoint = points[p];
 			System.out.println(pPoint.toString());
-			for (int q = 1; q<points.length-2;q++)
+			for (int q = p+ 1; q<points.length-2;q++)
 			{
 				
 				Point qPoint = points[q];
 				double p_q = pPoint.slopeTo(qPoint);
 				
-				for (int r = 2; r<points.length-1;r++)
+				for (int r = q + 1; r<points.length-1;r++)
 				{
 					Point rPoint = points[r];
 					double p_r = pPoint.slopeTo(rPoint);	
 					if(p_r == p_q)
 					{
-						for (int s = 3; s<points.length;s++)
+						for (int s =r + 1; s<points.length;s++)
 						{
 							
 							Point sPoint = points[s];
