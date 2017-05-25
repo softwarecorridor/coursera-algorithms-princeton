@@ -24,7 +24,7 @@ public class BruteCollinearPoints {
 			throw new NullPointerException();
 		}
 		
-		Arrays.sort(points, points[0].slopeOrder());
+		Arrays.sort(points);
 		
 		
 		for (int p = 0; p<points.length-3;p++)
