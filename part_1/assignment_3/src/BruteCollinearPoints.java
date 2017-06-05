@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class BruteCollinearPoints {
 
@@ -23,6 +22,8 @@ public class BruteCollinearPoints {
 		{
 			throw new NullPointerException();
 		}
+		
+		detectDuplicatedPoints(points);
 		
 		Arrays.sort(points);
 		
@@ -61,6 +62,23 @@ public class BruteCollinearPoints {
 		}
 	}
 	
+	
+	private void detectDuplicatedPoints(Point[] points)
+	{
+		for (int i = 0; i< points.length; i++)
+		{
+			for (int j = i+1; j < points.length; j++)
+			{
+				Point p = points[i];
+				Point q = points[j];
+				
+				if(p.compareTo(q) == 0)
+				{
+					throw new IllegalArgumentException();
+				}
+			}
+		}
+	}
 
 	/**
 	 * 
