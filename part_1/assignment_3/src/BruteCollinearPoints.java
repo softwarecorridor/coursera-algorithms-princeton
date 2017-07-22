@@ -24,12 +24,10 @@ public class BruteCollinearPoints {
 
 		Arrays.sort(points);
 
+		
 		for (int p = 0; p < points.length - 3; p++) {
-
 			Point pPoint = points[p];
-			System.out.println(pPoint.toString());
 			for (int q = p + 1; q < points.length - 2; q++) {
-
 				Point qPoint = points[q];
 				double p_q = pPoint.slopeTo(qPoint);
 
