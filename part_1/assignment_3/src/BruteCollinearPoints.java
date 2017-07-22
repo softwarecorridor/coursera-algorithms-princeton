@@ -22,22 +22,23 @@ public class BruteCollinearPoints {
 
 		detectDuplicatedPoints(points);
 
-		Arrays.sort(points);
+		Point[] copy = points.clone();
+		Arrays.sort(copy);
 
 		
-		for (int p = 0; p < points.length - 3; p++) {
-			Point pPoint = points[p];
-			for (int q = p + 1; q < points.length - 2; q++) {
-				Point qPoint = points[q];
+		for (int p = 0; p < copy.length - 3; p++) {
+			Point pPoint = copy[p];
+			for (int q = p + 1; q < copy.length - 2; q++) {
+				Point qPoint = copy[q];
 				double p_q = pPoint.slopeTo(qPoint);
 
-				for (int r = q + 1; r < points.length - 1; r++) {
-					Point rPoint = points[r];
+				for (int r = q + 1; r < copy.length - 1; r++) {
+					Point rPoint = copy[r];
 					double p_r = pPoint.slopeTo(rPoint);
 					if (p_r == p_q) {
-						for (int s = r + 1; s < points.length; s++) {
+						for (int s = r + 1; s < copy.length; s++) {
 
-							Point sPoint = points[s];
+							Point sPoint = copy[s];
 							double p_s = pPoint.slopeTo(sPoint);
 
 							if (p_r == p_s) {
