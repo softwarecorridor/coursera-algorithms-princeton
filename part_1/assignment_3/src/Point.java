@@ -85,6 +85,12 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
+    	
+    	if(that == null)
+    	{
+    		throw new NullPointerException();
+    	}
+    	
     	if(this.y > that.y)
     	{
     		return 1;
