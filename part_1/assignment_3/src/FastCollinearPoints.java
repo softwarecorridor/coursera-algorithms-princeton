@@ -11,30 +11,29 @@ public class FastCollinearPoints {
 	 * @param points
 	 */
 	public FastCollinearPoints(Point[] points) {
-		
-		if(points == null)
-		{
+
+		if (points == null) {
 			throw new NullPointerException();
 		}
-		
+
 		detectDuplicatedPoints(points);
-		
+
+		Arrays.sort(points);
 
 		segments = new ArrayList<>();
 
 		for (int p = 0; p < points.length - 3; p++) {
 			// Think of p as the origin.
-			Point origin = points[p];
 
-			// sorted by
-			Point[] copy = points;
+			Point origin = points[p];
+			Point[] copy = points.clone();
+
 			// Sort the points according to the slopes they makes with p.
 			Arrays.sort(copy, origin.slopeOrder());
 
 			// Check if any 3 (or more) adjacent points in the sorted order have
 			// equal slopes with respect to p. If so, these points, together
-			// with p, are
-			// collinear.
+			// with p, are collinear.
 			for (int j = 1; j < copy.length - 3; j++) {
 				Point pointJ = copy[j];
 				Point pointK = copy[j + 1];
@@ -53,24 +52,19 @@ public class FastCollinearPoints {
 		}
 
 	}
-	
-	private void detectDuplicatedPoints(Point[] points)
-	{
-		for (int i = 0; i< points.length; i++)
-		{
-			for (int j = i+1; j < points.length; j++)
-			{
+
+	private void detectDuplicatedPoints(Point[] points) {
+		for (int i = 0; i < points.length; i++) {
+			for (int j = i + 1; j < points.length; j++) {
 				Point p = points[i];
 				Point q = points[j];
-				
-				if(p.compareTo(q) == 0)
-				{
+
+				if (p.compareTo(q) == 0) {
 					throw new IllegalArgumentException();
 				}
 			}
 		}
 	}
-
 
 	private void addSegment(Point start, Point end) {
 
