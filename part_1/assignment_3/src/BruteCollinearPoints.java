@@ -16,11 +16,11 @@ public class BruteCollinearPoints {
 	 */
 	public BruteCollinearPoints(Point[] points) {
 
-		if (points == null) {
-			throw new NullPointerException();
-		}
+		
 
-		detectDuplicatedPoints(points);
+		validateInput(points);
+		
+		
 
 		Point[] copy = points.clone();
 		Arrays.sort(copy);
@@ -50,6 +50,25 @@ public class BruteCollinearPoints {
 			}
 		}
 	}
+	
+
+	private void validateInput(Point[] points) {
+		
+		if (points == null) {
+			throw new IllegalArgumentException ();
+		}
+		
+		for(Point p : points)
+		{
+			if (p == null)
+			{
+				throw new IllegalArgumentException();
+			}
+		}
+		// TODO Auto-generated method stub
+		detectDuplicatedPoints(points);
+	}
+
 
 	private void detectDuplicatedPoints(Point[] points) {
 		for (int i = 0; i < points.length-1; i++) {
