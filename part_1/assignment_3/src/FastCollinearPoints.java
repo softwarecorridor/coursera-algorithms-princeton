@@ -12,11 +12,7 @@ public class FastCollinearPoints {
 	 */
 	public FastCollinearPoints(Point[] points) {
 
-		if (points == null) {
-			throw new NullPointerException();
-		}
-
-		detectDuplicatedPoints(points);
+		validateInput(points);
 
 		Arrays.sort(points);
 
@@ -53,8 +49,23 @@ public class FastCollinearPoints {
 
 	}
 
+	private void validateInput(Point[] points) {
+
+		if (points == null) {
+			throw new IllegalArgumentException();
+		}
+
+		for (Point p : points) {
+			if (p == null) {
+				throw new IllegalArgumentException();
+			}
+		}
+		// TODO Auto-generated method stub
+		detectDuplicatedPoints(points);
+	}
+
 	private void detectDuplicatedPoints(Point[] points) {
-		for (int i = 0; i < points.length; i++) {
+		for (int i = 0; i < points.length - 1; i++) {
 			for (int j = i + 1; j < points.length; j++) {
 				Point p = points[i];
 				Point q = points[j];
