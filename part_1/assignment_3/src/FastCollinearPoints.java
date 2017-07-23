@@ -14,26 +14,27 @@ public class FastCollinearPoints {
 
 		validateInput(points);
 
-		Arrays.sort(points);
+		Point[] copy = points.clone();
+		Arrays.sort(copy);
 
 		segments = new ArrayList<>();
 
-		for (int p = 0; p < points.length - 3; p++) {
+		for (int p = 0; p < copy.length - 3; p++) {
 			// Think of p as the origin.
 
 			Point origin = points[p];
-			Point[] copy = points.clone();
+			Point[] internalCopy = points.clone();
 
 			// Sort the points according to the slopes they makes with p.
-			Arrays.sort(copy, origin.slopeOrder());
+			Arrays.sort(internalCopy, origin.slopeOrder());
 
 			// Check if any 3 (or more) adjacent points in the sorted order have
 			// equal slopes with respect to p. If so, these points, together
 			// with p, are collinear.
-			for (int j = 1; j < copy.length - 3; j++) {
-				Point pointJ = copy[j];
-				Point pointK = copy[j + 1];
-				Point pointL = copy[j + 2];
+			for (int j = 1; j < internalCopy.length - 3; j++) {
+				Point pointJ = internalCopy[j];
+				Point pointK = internalCopy[j + 1];
+				Point pointL = internalCopy[j + 2];
 
 				double slopeJ = origin.slopeTo(pointJ);
 				double slopeK = origin.slopeTo(pointK);
