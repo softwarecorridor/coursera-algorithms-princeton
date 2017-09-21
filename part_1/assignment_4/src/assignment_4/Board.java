@@ -9,6 +9,8 @@ package assignment_4;
  */
 public class Board {
 	
+	private int[][] currentBoard;
+	
 	/**
 	 * construct a board from an n-by-n array of blocks 
 	 * (where blocks[i][j] = block in row i, column j)
@@ -16,7 +18,7 @@ public class Board {
 	 */
 	public Board(int[][] blocks)
 	{
-		
+		currentBoard = blocks;
 	}
 	
 	/**
@@ -25,7 +27,7 @@ public class Board {
 	 */
 	public int dimension()
 	{
-		return -1;
+		return currentBoard[0].length;
 		
 	}
 	
@@ -35,7 +37,19 @@ public class Board {
 	 */
 	public int hamming()
 	{
-		return -1;
+		int counter = 0;
+		for(int i= 0; i<dimension()*dimension(); i++)
+		{
+			int posX = i % dimension();
+			int posY = i / dimension();
+			
+			if(currentBoard[posX][posY] != i+1)
+			{
+				System.out.println(currentBoard[posX][posY]);
+				counter++;
+			}
+		}
+		return counter;
 	}
 	
 	/**
@@ -44,6 +58,19 @@ public class Board {
 	 */
 	public int manhattan()
 	{
+		
+		int counter = 0;
+		for(int i= 0; i<dimension()*dimension(); i++)
+		{
+			int posX = i % dimension();
+			int posY = i / dimension();
+			
+			if(currentBoard[posX][posY] != i+1)
+			{
+				System.out.println(currentBoard[posX][posY]);
+				counter++;
+			}
+		}
 		return -1;
 	}
 	
@@ -92,7 +119,15 @@ public class Board {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		int[][] test_arr  = new int[2][2];
+		test_arr[0][0] = 2;
+		test_arr[1][0] = 3;
+		test_arr[0][1] = 1;
+		test_arr[1][1] = 4;
+		
+		Board b = new Board(test_arr);
+		System.out.println(b.hamming());
 
 	}
 
