@@ -38,17 +38,21 @@ public class Board {
 	public int hamming()
 	{
 		int counter = 0;
-		for(int i= 0; i<dimension()*dimension(); i++)
+		for(int i= 0; i<dimension()*dimension()-1; i++)
 		{
 			int posX = i % dimension();
 			int posY = i / dimension();
 			
 			if(currentBoard[posX][posY] != i+1)
 			{
-				System.out.println(currentBoard[posX][posY]);
+				System.out.print("1 ");
 				counter++;
+			}else
+			{
+				System.out.print("0 ");
 			}
 		}
+		System.out.print("\n");
 		return counter;
 	}
 	
@@ -58,7 +62,6 @@ public class Board {
 	 */
 	public int manhattan()
 	{
-		
 		int counter = 0;
 		for(int i= 0; i<dimension()*dimension(); i++)
 		{
@@ -67,13 +70,20 @@ public class Board {
 			
 			if(currentBoard[posX][posY] != i+1)
 			{
-				System.out.println(currentBoard[posX][posY]);
-				counter++;
+				
+				counter+=manhattan_score(posX, posY, i+1, dimension());
 			}
 		}
-		return -1;
+		return counter;
 	}
 	
+	private int manhattan_score(int currentX, int currentY, int goal_node, int dimension)
+	{
+		int posX = goal_node % dimension();
+		int posY = goal_node / dimension();
+		
+		return Math.abs(currentX-posX) + Math.abs(currentY-posY);
+	}
 	/**
 	 * is this board the goal board?
 	 * @return
@@ -120,15 +130,20 @@ public class Board {
 	 */
 	public static void main(String[] args) {
 		
-		int[][] test_arr  = new int[2][2];
-		test_arr[0][0] = 2;
-		test_arr[1][0] = 3;
-		test_arr[0][1] = 1;
-		test_arr[1][1] = 4;
+		int[][] test_arr  = new int[3][3];
+		test_arr[0][0] = 8;
+		test_arr[1][0] = 1;
+		test_arr[2][0] = 3;
+		test_arr[0][1] = 4;
+		test_arr[1][1] = 0;
+		test_arr[2][1] = 2;
+		test_arr[0][2] = 7;
+		test_arr[1][2] = 6;
+		test_arr[2][2] = 5;
 		
 		Board b = new Board(test_arr);
 		System.out.println(b.hamming());
-
+		System.out.println(b.manhattan());
 	}
 
 }
