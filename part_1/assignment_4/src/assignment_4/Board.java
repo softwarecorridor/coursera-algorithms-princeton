@@ -113,7 +113,13 @@ public class Board {
 	
 	public boolean equals(Object y)
 	{
-		return false;
+		if(y==null)
+		{
+			return false;
+		}
+		
+		return (y instanceof Board && currentBoard.equals(((Board)y).currentBoard));
+		
 	}
 	
 	/**
@@ -170,12 +176,21 @@ public class Board {
 		test_arr[0][2] = 3;
 		test_arr[1][2] = 6;
 		test_arr[2][2] = 0;
-		Board b = new Board(test_arr);
-		System.out.println(b.hamming());
-		System.out.println(b.manhattan());
+		Board a = new Board(test_arr);
+		int[][] test_arr2  = new int[3][3];
+		test_arr2[0][0] = 8;
+		test_arr2[1][0] = 4;
+		test_arr2[2][0] = 7;
+		test_arr2[0][1] = 1;
+		test_arr2[1][1] = 0;
+		test_arr2[2][1] = 6;
+		test_arr2[0][2] = 3;
+		test_arr2[1][2] = 2;
+		test_arr2[2][2] = 5;
 		
-		System.out.print(b.toString());
-		System.out.print(b.isGoal());
+		Board b = new Board(test_arr2);
+		
+		System.out.println(b.equals(a));
 	}
 
 }
