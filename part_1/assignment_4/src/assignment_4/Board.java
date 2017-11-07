@@ -28,7 +28,6 @@ public class Board {
 	public int dimension()
 	{
 		return currentBoard[0].length;
-		
 	}
 	
 	/**
@@ -70,7 +69,6 @@ public class Board {
 			
 			if(currentBoard[posX][posY] != i+1)
 			{
-				
 				counter+=manhattan_score(posX, posY, i+1, dimension());
 			}
 		}
@@ -84,6 +82,7 @@ public class Board {
 		
 		return Math.abs(currentX-posX) + Math.abs(currentY-posY);
 	}
+	
 	/**
 	 * is this board the goal board?
 	 * @return
@@ -133,13 +132,14 @@ public class Board {
 	{
 		StringBuilder builder = new StringBuilder();
 		int size = dimension();
+		builder.append(size + "\n");
 		for(int i = 0; i<size;i++)
 		{
 			for (int j = 0; j<size;j++)
 			{
-				builder.append("|" + currentBoard[i][j]);
+				builder.append(String.format("%2d ", currentBoard[i][j]));
 			}
-			builder.append("|\n");
+			builder.append("\n");
 		}
 		return builder.toString();
 	}
