@@ -108,18 +108,33 @@ public class Board {
 	 */
 	public Board twin()
 	{
+		int[][] newBoard = currentBoard.clone();
+		for(int i= 0; i<dimension()*dimension()-1; i++)
+		{
+			int posX = i / dimension();
+			int posY = i % dimension();
+			//check we are not at edge
+			
+			if(newBoard[posX][posY] == 0 || posY+1 == dimension())
+			{
+				continue;
+			}
+			//check if we are at end, if so check the next mno
+			if(newBoard[posX][posY+1] != 0)
+			{
+				int temp = newBoard[posX][posY];
+				newBoard[posX][posY] = newBoard[posX][posY+1];
+				newBoard[posX][posY+1] = temp;
+				return new Board(newBoard);
+			}
+		}
+		
 		return null;
 	}
 	
 	public boolean equals(Object y)
 	{
-		if(y==null)
-		{
-			return false;
-		}
-		
-		return (y instanceof Board && currentBoard.equals(((Board)y).currentBoard));
-		
+		return (y instanceof Board && toString().equals(y.toString()));
 	}
 	
 	/**
@@ -156,7 +171,7 @@ public class Board {
 	 */
 	public static void main(String[] args) {
 		
-		int[][] test_arr  = new int[3][3];
+//		int[][] test_arr  = new int[3][3];
 //		test_arr[0][0] = 8;
 //		test_arr[1][0] = 4;
 //		test_arr[2][0] = 7;
@@ -167,30 +182,26 @@ public class Board {
 //		test_arr[1][2] = 2;
 //		test_arr[2][2] = 5;
 		
+//		test_arr[0][0] = 1;
+//		test_arr[1][0] = 4;
+//		test_arr[2][0] = 7;
+//		test_arr[0][1] = 2;
+//		test_arr[1][1] = 5;
+//		test_arr[2][1] = 8;
+//		test_arr[0][2] = 3;
+//		test_arr[1][2] = 6;
+//		test_arr[2][2] = 0;
+		
+		int[][] test_arr  = new int[2][2];
 		test_arr[0][0] = 1;
-		test_arr[1][0] = 4;
-		test_arr[2][0] = 7;
 		test_arr[0][1] = 2;
-		test_arr[1][1] = 5;
-		test_arr[2][1] = 8;
-		test_arr[0][2] = 3;
-		test_arr[1][2] = 6;
-		test_arr[2][2] = 0;
+		test_arr[1][0] = 3;
+		test_arr[1][1] = 4;
+ 		
 		Board a = new Board(test_arr);
-		int[][] test_arr2  = new int[3][3];
-		test_arr2[0][0] = 8;
-		test_arr2[1][0] = 4;
-		test_arr2[2][0] = 7;
-		test_arr2[0][1] = 1;
-		test_arr2[1][1] = 0;
-		test_arr2[2][1] = 6;
-		test_arr2[0][2] = 3;
-		test_arr2[1][2] = 2;
-		test_arr2[2][2] = 5;
 		
-		Board b = new Board(test_arr2);
-		
-		System.out.println(b.equals(a));
+		System.out.println(a.toString());
+		System.out.println(a.twin().toString());
 	}
 
 }
