@@ -112,23 +112,20 @@ public class Board {
 	 */
 	public Board twin()
 	{
-		int[][] newBoard = currentBoard.clone();
 		for(int i= 0; i<dimension()*dimension()-1; i++)
 		{
 			int posX = i / dimension();
 			int posY = i % dimension();
 			//check we are not at edge
 			
-			if(newBoard[posX][posY] == 0 || posY+1 == dimension())
+			if(currentBoard[posX][posY] == 0 || posY+1 == dimension())
 			{
 				continue;
 			}
-			//check if we are at end, if so check the next mno
-			if(newBoard[posX][posY+1] != 0)
+
+			if(currentBoard[posX][posY+1] != 0)
 			{
-				int temp = newBoard[posX][posY];
-				newBoard[posX][posY] = newBoard[posX][posY+1];
-				newBoard[posX][posY+1] = temp;
+				int[][] newBoard = swap(posX, posY, posX, posY+1);
 				return new Board(newBoard);
 			}
 		}
@@ -302,13 +299,8 @@ public class Board {
 		Board a = new Board(test_arr);
 		
 		System.out.println(a.toString());
-		
-		System.out.println("neighbors:");
-		
-		for(Board b : a.neighbors())
-		{
-			System.out.println(b.toString());
-		}
+		System.out.println(a.twin().toString());
+
 	}
 
 }
