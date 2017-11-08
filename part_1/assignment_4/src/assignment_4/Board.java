@@ -1,5 +1,9 @@
 package assignment_4;
 
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /*
  * - Corner cases.  You may assume that the constructor receives an n-by-n array containing 
  * 	the n2 integers between 0 and n2 − 1, where 0 represents the blank square.
@@ -137,13 +141,110 @@ public class Board {
 		return (y instanceof Board && toString().equals(y.toString()));
 	}
 	
+	
+	/**
+	 * Return a copy of the array with the two positions swapped.
+	 * 
+	 * @param posX1
+	 * @param posY1
+	 * @param posX2
+	 * @param posY2
+	 * @return
+	 */
+	private int[][] swap(int posX1, int posY1, int posX2, int posY2 )
+	{
+		int[][] clonedArray = copyBoard(currentBoard);
+		int temp = clonedArray[posX1][posY1];
+		clonedArray[posX1][posY1] = clonedArray[posX2][posY2];
+		clonedArray[posX2][posY2] = temp;
+		return clonedArray;
+	}
+	
+	private int[][] copyBoard(int[][] src)
+	{
+		
+		int[][] target = new int[src.length][src[0].length];
+		for(int i = 0; i<src[0].length;i++)
+		{
+			for(int j = 0; j< src[0].length;j++)
+			{
+				target[i][j] = src[i][j];
+			}
+		}
+		return target;
+	}
+	
 	/**
 	 * all neighboring boards
 	 * @return
 	 */
 	public Iterable<Board> neighbors()
 	{
-		return null;
+		ArrayList<Board> neighborBoards = new ArrayList<>();
+		
+		for(int i= 0; i<dimension()*dimension(); i++)
+		{
+			int posX = i / dimension();
+			int posY = i % dimension();
+			
+			if(currentBoard[posX][posY] == 0)
+			{
+				System.out.println(String.format("%d,%d", posX, posY));
+				
+				int upPosition = posX-1;
+				if(upPosition >=0)
+				{
+					System.out.print(String.format("%d,%d", upPosition, posY));
+					System.out.print(": " + currentBoard[upPosition][posY]);
+					int[][] newBoard = swap(posX,posY,upPosition,posY);
+					neighborBoards.add(new Board(newBoard));
+				}else
+				{
+					System.out.println("out of bounds");
+				}
+				
+				int downPosition = posX+1;
+				if(downPosition<dimension())
+				{
+					System.out.print(String.format("%d,%d", downPosition, posY));
+					System.out.print(": " + currentBoard[downPosition][posY]+"\n");
+					int[][] newBoard = swap(posX,posY,downPosition,posY);
+					neighborBoards.add(new Board(newBoard));
+				}else
+				{
+					System.out.println("out of bounds");
+				}
+				
+				int leftPosition = posY-1;
+				if(leftPosition>=0)
+				{
+					System.out.print(String.format("%d,%d", posX, leftPosition));
+					System.out.print(": " + currentBoard[posX][leftPosition]+"\n");
+					int[][] newBoard = swap(posX,posY,posX,leftPosition);
+					neighborBoards.add(new Board(newBoard));
+				}else
+				{
+					System.out.println("out of bounds");
+				}
+				
+				int rightPosition = posY+1;
+				if(rightPosition<dimension())
+				{
+					System.out.print(String.format("%d,%d", posX, rightPosition));
+					System.out.print(": " + currentBoard[posX][rightPosition]+"\n");
+					int[][] newBoard = swap(posX,posY,posX,rightPosition);
+					neighborBoards.add(new Board(newBoard));
+				}else
+				{
+					System.out.println("out of bounds");
+				}
+				break;
+			}
+		
+		}
+		
+		
+		return neighborBoards;
 	}
 	
 	/**
@@ -171,7 +272,7 @@ public class Board {
 	 */
 	public static void main(String[] args) {
 		
-//		int[][] test_arr  = new int[3][3];
+		int[][] test_arr  = new int[3][3];
 //		test_arr[0][0] = 8;
 //		test_arr[1][0] = 4;
 //		test_arr[2][0] = 7;
@@ -182,26 +283,32 @@ public class Board {
 //		test_arr[1][2] = 2;
 //		test_arr[2][2] = 5;
 		
-//		test_arr[0][0] = 1;
-//		test_arr[1][0] = 4;
-//		test_arr[2][0] = 7;
-//		test_arr[0][1] = 2;
-//		test_arr[1][1] = 5;
-//		test_arr[2][1] = 8;
-//		test_arr[0][2] = 3;
-//		test_arr[1][2] = 6;
-//		test_arr[2][2] = 0;
-		
-		int[][] test_arr  = new int[2][2];
 		test_arr[0][0] = 1;
-		test_arr[0][1] = 2;
-		test_arr[1][0] = 3;
-		test_arr[1][1] = 4;
- 		
+		test_arr[1][0] = 4;
+		test_arr[2][0] = 7;
+		test_arr[0][1] = 0;
+		test_arr[1][1] = 5;
+		test_arr[2][1] = 8;
+		test_arr[0][2] = 3;
+		test_arr[1][2] = 6;
+		test_arr[2][2] = 2;
+		
+//		int[][] test_arr  = new int[2][2];
+//		test_arr[0][0] = 1;
+//		test_arr[0][1] = 0;
+//		test_arr[1][0] = 3;
+//		test_arr[1][1] = 4;
+// 		
 		Board a = new Board(test_arr);
 		
 		System.out.println(a.toString());
-		System.out.println(a.twin().toString());
+		
+		System.out.println("neighbors:");
+		
+		for(Board b : a.neighbors())
+		{
+			System.out.println(b.toString());
+		}
 	}
 
 }
