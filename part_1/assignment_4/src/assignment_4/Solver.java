@@ -1,16 +1,107 @@
 package assignment_4;
 
+import java.util.ArrayList;
+
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.StdOut;
 
 public class Solver {
+	
+	private MinPQ<Node> priorityQueue = new MinPQ<>();
 	
 	/**
 	 * find a solution to the initial board (using the A* algorithm)
 	 * @param initial
 	 */
+	private ArrayList<Board> nodeList = new ArrayList<>();
+	
+	private class Node implements Comparable<Node>
+	{
+		private Board b;
+		private int move = 0;
+		private Node predecessor = null;
+		
+		public Node(Board currentBoard, int moveNumber, Node previousBoard)
+		{
+			b = currentBoard;
+			move = moveNumber;
+			predecessor = previousBoard;
+		}
+		
+		public boolean isGoal()
+		{
+			return b.isGoal();
+		}
+		
+		public Iterable<Board> neighbors()
+		{
+			return b.neighbors();
+		}
+
+
+		@Override
+		public int compareTo(Node o) {
+			// TODO Auto-generated method stub
+			if(b.hamming() > o.b.hamming())
+			{
+				return 1;
+			}
+			
+			if(b.hamming() < o.b.hamming())
+			{
+				return -1;
+			}
+			return 0;
+		}
+		
+	}
+	
 	public Solver(Board initial)
 	{
+		bestFirstSearch(initial);
+	}
+	
+	
+	private void bestFirstSearch(Board initial)
+	{
+		/* 
+		 * 
+		 *  Repeat this procedure until the search node dequeued corresponds to a goal board. 
+		 *  The success of this approach hinges on the choice of priority function for a search node. 
+		 *  We consider two priority functions: 
+		 */
+		
+//		First, insert the initial search node (the initial board, 0 moves, and a null predecessor search node) into a priority queue.
+		int move = 0;
+		Node initialNode = new Node(initial, move, null);
+		priorityQueue.insert(initialNode);
+		
+//		delete from the priority queue the search node with the minimum priority (those that can be reached in one move from the dequeued search node). 
+		
+		Node dequeueNode = priorityQueue.delMin();
+		nodeList.add(dequeueNode.b);
+		
+		while(!dequeueNode.isGoal())
+		{
+			System.out.println("start...");
+			
+			move++;
+//			insert onto the priority queue all neighboring search nodes 
+			for(Board b : dequeueNode.neighbors())
+			{
+				Node newNode = new Node(b,move,dequeueNode);
+//				System.out.println(b.toString());
+				priorityQueue.insert(newNode);
+			}
+			
+			dequeueNode = priorityQueue.delMin();
+			dequeueNode.toString();
+			
+			nodeList.add(dequeueNode.b);
+		}
+		
+		System.out.println(priorityQueue.size());
 		
 	}
 	
@@ -20,7 +111,7 @@ public class Solver {
 	 */
 	public boolean isSolvable()
 	{
-		return false;
+		return true;
 	}
 	
 	/**
@@ -29,7 +120,7 @@ public class Solver {
 	 */
 	public int moves()
 	{
-		return -1;
+		return priorityQueue.size();
 	}
 	
 	/**
@@ -38,7 +129,7 @@ public class Solver {
 	 */
 	public Iterable<Board> solution()
 	{
-		return null;
+		return nodeList;
 	}
 
 	/**

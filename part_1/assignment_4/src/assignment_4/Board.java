@@ -46,13 +46,13 @@ public class Board {
 			int posY = i % dimension();
 
 			if (currentBoard[posX][posY] != i + 1) {
-				System.out.print("1 ");
+//				System.out.print("1 ");
 				counter++;
 			} else {
-				System.out.print("0 ");
+//				System.out.print("0 ");
 			}
 		}
-		System.out.print("\n");
+//		System.out.print("\n");
 		return counter;
 	}
 
@@ -167,46 +167,46 @@ public class Board {
 			int posY = i % dimension();
 
 			if (currentBoard[posX][posY] == 0) {
-				System.out.println(String.format("%d,%d", posX, posY));
+//				System.out.println(String.format("%d,%d", posX, posY));
 
 				int upPosition = posX - 1;
 				if (upPosition >= 0) {
-					System.out.print(String.format("%d,%d", upPosition, posY));
-					System.out.print(": " + currentBoard[upPosition][posY]);
+//					System.out.print(String.format("%d,%d", upPosition, posY));
+//					System.out.print(": " + currentBoard[upPosition][posY]);
 					int[][] newBoard = swap(posX, posY, upPosition, posY);
 					neighborBoards.add(new Board(newBoard));
 				} else {
-					System.out.println("out of bounds");
+//					System.out.println("out of bounds");
 				}
 
 				int downPosition = posX + 1;
 				if (downPosition < dimension()) {
-					System.out.print(String.format("%d,%d", downPosition, posY));
-					System.out.print(": " + currentBoard[downPosition][posY] + "\n");
+//					System.out.print(String.format("%d,%d", downPosition, posY));
+//					System.out.print(": " + currentBoard[downPosition][posY] + "\n");
 					int[][] newBoard = swap(posX, posY, downPosition, posY);
 					neighborBoards.add(new Board(newBoard));
 				} else {
-					System.out.println("out of bounds");
+//					System.out.println("out of bounds");
 				}
 
 				int leftPosition = posY - 1;
 				if (leftPosition >= 0) {
-					System.out.print(String.format("%d,%d", posX, leftPosition));
-					System.out.print(": " + currentBoard[posX][leftPosition] + "\n");
+//					System.out.print(String.format("%d,%d", posX, leftPosition));
+//					System.out.print(": " + currentBoard[posX][leftPosition] + "\n");
 					int[][] newBoard = swap(posX, posY, posX, leftPosition);
 					neighborBoards.add(new Board(newBoard));
 				} else {
-					System.out.println("out of bounds");
+//					System.out.println("out of bounds");
 				}
 
 				int rightPosition = posY + 1;
 				if (rightPosition < dimension()) {
-					System.out.print(String.format("%d,%d", posX, rightPosition));
-					System.out.print(": " + currentBoard[posX][rightPosition] + "\n");
+//					System.out.print(String.format("%d,%d", posX, rightPosition));
+//					System.out.print(": " + currentBoard[posX][rightPosition] + "\n");
 					int[][] newBoard = swap(posX, posY, posX, rightPosition);
 					neighborBoards.add(new Board(newBoard));
 				} else {
-					System.out.println("out of bounds");
+//					System.out.println("out of bounds");
 				}
 				break;
 			}
@@ -269,8 +269,8 @@ public class Board {
 		//
 		Board a = new Board(test_arr);
 
-		System.out.println(a.toString());
-		System.out.println(a.twin().toString());
+//		System.out.println(a.toString());
+//		System.out.println(a.twin().toString());
 
 	}
 
