@@ -81,7 +81,9 @@ public class Solver {
 		
 		Node dequeueNode = priorityQueue.delMin();
 		nodeList.add(dequeueNode.b);
-		
+//		 Best-first search has one annoying feature: search nodes corresponding to the same board are enqueued on the priority queue many times. 
+//		 To reduce unnecessary exploration of useless search nodes, when considering the neighbors of a search node, don't enqueue a neighbor if its board 
+//		 is the same as the board of the predecessor search node
 		while(!dequeueNode.isGoal())
 		{
 			System.out.println("start...");
@@ -90,9 +92,13 @@ public class Solver {
 //			insert onto the priority queue all neighboring search nodes 
 			for(Board b : dequeueNode.neighbors())
 			{
-				Node newNode = new Node(b,move,dequeueNode);
-//				System.out.println(b.toString());
-				priorityQueue.insert(newNode);
+				if(dequeueNode.predecessor == null || !b.equals(dequeueNode.predecessor.b))
+				{
+					Node newNode = new Node(b,move,dequeueNode);
+//					System.out.println(b.toString());
+					priorityQueue.insert(newNode);
+				}
+				
 			}
 			
 			dequeueNode = priorityQueue.delMin();
