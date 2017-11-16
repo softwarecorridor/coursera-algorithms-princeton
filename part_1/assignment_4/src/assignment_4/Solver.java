@@ -8,13 +8,17 @@ import edu.princeton.cs.algs4.StdOut;
 
 public class Solver {
 	
-	private MinPQ<Node> priorityQueue = new MinPQ<>();
+	private MinPQ<Node> mainPriorityQueue = new MinPQ<>();
+	private MinPQ<Node> twinPriorityQueue = new MinPQ<>();
 	
 	/**
 	 * find a solution to the initial board (using the A* algorithm)
 	 * @param initial
 	 */
-	private ArrayList<Board> nodeList = new ArrayList<>();
+	private ArrayList<Board> mainNodeList = new ArrayList<>();
+	private ArrayList<Board> twinNodeList = new ArrayList<>();
+	
+	private boolean isSolvable;
 	
 	private class Node implements Comparable<Node>
 	{
@@ -63,51 +67,82 @@ public class Solver {
 	}
 	
 	
+	
+	/*
+	 * To detect such situations, use the fact that boards are divided into two equivalence classes
+ with respect to reachability: (i) those that lead to the goal board and (ii) those that lead to
+ the goal board if we modify the initial board by swapping any pair of blocks (the blank square 
+ is not a block). (Difficult challenge for the mathematically inclined: prove this fact.) To 
+ apply the fact, run the A* algorithm on two puzzle instances—one with the initial board and one 
+ with the initial board modified by swapping a pair of blocks—in lockstep (alternating back and 
+ forth between exploring search nodes in each of the two game trees). 
+	 */
+	
+	
 	private void bestFirstSearch(Board initial)
 	{
-		/* 
-		 * 
-		 *  Repeat this procedure until the search node dequeued corresponds to a goal board. 
-		 *  The success of this approach hinges on the choice of priority function for a search node. 
-		 *  We consider two priority functions: 
-		 */
+		
+		// have two boards initial and twin of initial
+		Board twin = initial.twin();
+		System.out.println(twin.toString());
 		
 //		First, insert the initial search node (the initial board, 0 moves, and a null predecessor search node) into a priority queue.
 		int move = 0;
 		Node initialNode = new Node(initial, move, null);
-		priorityQueue.insert(initialNode);
+		Node twinNode = new Node(twin, move, null);
+		
+		
+		mainPriorityQueue.insert(initialNode);
+		twinPriorityQueue.insert(twinNode);
+		
 		
 //		delete from the priority queue the search node with the minimum priority (those that can be reached in one move from the dequeued search node). 
 		
-		Node dequeueNode = priorityQueue.delMin();
-		nodeList.add(dequeueNode.b);
-//		 Best-first search has one annoying feature: search nodes corresponding to the same board are enqueued on the priority queue many times. 
-//		 To reduce unnecessary exploration of useless search nodes, when considering the neighbors of a search node, don't enqueue a neighbor if its board 
-//		 is the same as the board of the predecessor search node
-		while(!dequeueNode.isGoal())
+		Node mainDequeueNode = mainPriorityQueue.delMin();
+		mainNodeList.add(mainDequeueNode.b);
+		
+		Node twinDequeueNode = twinPriorityQueue.delMin();
+		twinNodeList.add(twinDequeueNode.b);
+		
+
+		while(!mainDequeueNode.isGoal() && !twinDequeueNode.isGoal())
 		{
-			System.out.println("start...");
+			
+			//TODO: do each step of the boards at the same time
+			//TODO: if twin is the goal then the board is unsolveable
 			
 			move++;
 //			insert onto the priority queue all neighboring search nodes 
-			for(Board b : dequeueNode.neighbors())
+			for(Board b : mainDequeueNode.neighbors())
 			{
-				if(dequeueNode.predecessor == null || !b.equals(dequeueNode.predecessor.b))
+				if(mainDequeueNode.predecessor == null || !b.equals(mainDequeueNode.predecessor.b))
 				{
-					Node newNode = new Node(b,move,dequeueNode);
+					Node newNode = new Node(b,move,mainDequeueNode);
 //					System.out.println(b.toString());
-					priorityQueue.insert(newNode);
+					mainPriorityQueue.insert(newNode);
 				}
 				
 			}
 			
-			dequeueNode = priorityQueue.delMin();
-			dequeueNode.toString();
+			for (Board twinB : twinDequeueNode.neighbors())
+			{
+				if(twinDequeueNode.predecessor == null || !twinB.equals(twinDequeueNode.predecessor.b))
+				{
+					Node newNode = new Node(twinB,move,twinDequeueNode);
+					twinPriorityQueue.insert(newNode);
+				}
+			}
 			
-			nodeList.add(dequeueNode.b);
+			mainDequeueNode = mainPriorityQueue.delMin();
+			mainNodeList.add(mainDequeueNode.b);
+			twinDequeueNode = twinPriorityQueue.delMin();
+			twinNodeList.add(twinDequeueNode.b);
+			
+			
 		}
-		
-		System.out.println(priorityQueue.size());
+
+		// Exactly one of the two will lead to the goal board. 
+		isSolvable = !twinDequeueNode.isGoal();
 		
 	}
 	
@@ -117,7 +152,7 @@ public class Solver {
 	 */
 	public boolean isSolvable()
 	{
-		return true;
+		return isSolvable;
 	}
 	
 	/**
@@ -126,7 +161,7 @@ public class Solver {
 	 */
 	public int moves()
 	{
-		return priorityQueue.size();
+		return mainPriorityQueue.size();
 	}
 	
 	/**
@@ -135,7 +170,7 @@ public class Solver {
 	 */
 	public Iterable<Board> solution()
 	{
-		return nodeList;
+		return mainNodeList;
 	}
 
 	/**
