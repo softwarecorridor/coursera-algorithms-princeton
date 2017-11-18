@@ -1,5 +1,3 @@
-package assignment_4;
-
 import java.util.ArrayList;
 
 import edu.princeton.cs.algs4.In;
@@ -68,23 +66,13 @@ public class Solver {
 	
 	
 	
-	/*
-	 * To detect such situations, use the fact that boards are divided into two equivalence classes
- with respect to reachability: (i) those that lead to the goal board and (ii) those that lead to
- the goal board if we modify the initial board by swapping any pair of blocks (the blank square 
- is not a block). (Difficult challenge for the mathematically inclined: prove this fact.) To 
- apply the fact, run the A* algorithm on two puzzle instances—one with the initial board and one 
- with the initial board modified by swapping a pair of blocks—in lockstep (alternating back and 
- forth between exploring search nodes in each of the two game trees). 
-	 */
-	
 	
 	private void bestFirstSearch(Board initial)
 	{
 		
 		// have two boards initial and twin of initial
 		Board twin = initial.twin();
-		System.out.println(twin.toString());
+//		System.out.println(twin.toString());
 		
 //		First, insert the initial search node (the initial board, 0 moves, and a null predecessor search node) into a priority queue.
 		int move = 0;

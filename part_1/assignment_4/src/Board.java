@@ -1,16 +1,5 @@
-package assignment_4;
-
-import java.awt.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-/*
- * - Corner cases.  You may assume that the constructor receives an n-by-n array containing 
- * 	the n2 integers between 0 and n2 − 1, where 0 represents the blank square.
- * - Performance requirements.  Your implementation should support all Board methods in 
- * 	time proportional to n2 (or better) in the worst case. 
- * 
- */
 public class Board {
 
 	private int[][] currentBoard;
