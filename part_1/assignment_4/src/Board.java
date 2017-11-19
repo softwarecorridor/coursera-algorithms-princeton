@@ -112,7 +112,18 @@ public class Board {
 	}
 
 	public boolean equals(Object y) {
-		return (y instanceof Board && toString().equals(y.toString()));
+		if (y == null)
+		{
+			return false;
+		}else if (y == this)
+		{
+			return true;
+		}else if (y instanceof Board)
+		{
+			Board board = (Board) y;
+			return (currentBoard == board.currentBoard);
+		}
+		return false;
 	}
 
 	/**
