@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdOut;
-
 public class Board {
 
 	private int[][] currentBoard;
@@ -15,7 +12,7 @@ public class Board {
 	 * @param blocks
 	 */
 	public Board(int[][] blocks) {
-		currentBoard = blocks;
+		currentBoard = copyBoard(blocks);
 	}
 
 	/**
