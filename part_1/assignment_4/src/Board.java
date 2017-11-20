@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-
-import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdOut;
+import java.util.Arrays;
 
 public class Board {
 
@@ -132,7 +130,7 @@ public class Board {
 		}else if (y instanceof Board)
 		{
 			Board board = (Board) y;
-			return (currentBoard == board.currentBoard);
+			return Arrays.deepEquals(this.currentBoard, board.currentBoard);
 		}
 		return false;
 	}
@@ -251,38 +249,31 @@ public class Board {
 	 */
 	public static void main(String[] args) {
 
-		int[][] test_arr = new int[3][3];
-		 test_arr[0][0] = 8;
-		 test_arr[1][0] = 4;
-		 test_arr[2][0] = 7;
-		 test_arr[0][1] = 1;
-		 test_arr[1][1] = 0;
-		 test_arr[2][1] = 6;
-		 test_arr[0][2] = 3;
-		 test_arr[1][2] = 2;
-		 test_arr[2][2] = 5;
+		int[][] test_arr = new int[2][2];
+		
+		
+		test_arr[0][0] = 1;
+		test_arr[0][1] = 2;
+		test_arr[1][0] = 0;
+		test_arr[1][1] = 3;
+		
+		
+		int[][] test_arr2 = new int[2][2];
+		test_arr2[0][0] = 1;
+		test_arr2[0][1] = 2;
+		test_arr2[1][0] = 0;
+		test_arr2[1][1] = 3;
 
-//		test_arr[0][0] = 1;
-//		test_arr[1][0] = 4;
-//		test_arr[2][0] = 7;
-//		test_arr[0][1] = 0;
-//		test_arr[1][1] = 5;
-//		test_arr[2][1] = 8;
-//		test_arr[0][2] = 3;
-//		test_arr[1][2] = 6;
-//		test_arr[2][2] = 2;
-//		
-		In in = new In(args[0]);
-	    int n = in.readInt();
-	    int[][] blocks = new int[n][n];
-	    for (int i = 0; i < n; i++)
-	        for (int j = 0; j < n; j++)
-	            blocks[i][j] = in.readInt();
-	    Board initial = new Board(blocks);
-
-	    // solve the puzzle
-	    System.out.println(initial.toString());
-	    System.out.println(initial.manhattan());
+//		In in = new In(args[0]);
+//	    int n = in.readInt();
+//	    int[][] blocks = new int[n][n];
+//	    for (int i = 0; i < n; i++)
+//	        for (int j = 0; j < n; j++)
+//	            blocks[i][j] = in.readInt();
+	    Board a = new Board(test_arr);
+	    Board b = new Board(test_arr2);
+	    
+	    System.out.print(a.equals(b));
 
 
 	}
