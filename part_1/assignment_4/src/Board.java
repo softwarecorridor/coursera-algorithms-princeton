@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdOut;
+
 public class Board {
 
 	private int[][] currentBoard;
@@ -55,15 +58,23 @@ public class Board {
 		for (int i = 0; i < dimension() * dimension(); i++) {
 			int posX = i / dimension();
 			int posY = i % dimension();
-
-			if (currentBoard[posX][posY] != i + 1) {
-				counter += manhattan_score(posX, posY, i + 1, dimension());
-			}
+			
+			if (currentBoard[posX][posY] != i + 1 && currentBoard[posX][posY]!=0) {
+				
+				int score = manhattan_score(posX, posY, currentBoard[posX][posY]-1);
+				counter += score;
+//				System.out.print(score+ " ");
+			}/*else
+			{
+				System.out.print("0 ");
+			}*/
+			
 		}
+		System.out.print("\n");
 		return counter;
 	}
 
-	private int manhattan_score(int currentX, int currentY, int goal_node, int dimension) {
+	private int manhattan_score(int currentX, int currentY, int goal_node) {
 		int posX = goal_node / dimension();
 		int posY = goal_node % dimension();
 
@@ -241,36 +252,38 @@ public class Board {
 	public static void main(String[] args) {
 
 		int[][] test_arr = new int[3][3];
-		// test_arr[0][0] = 8;
-		// test_arr[1][0] = 4;
-		// test_arr[2][0] = 7;
-		// test_arr[0][1] = 1;
-		// test_arr[1][1] = 0;
-		// test_arr[2][1] = 6;
-		// test_arr[0][2] = 3;
-		// test_arr[1][2] = 2;
-		// test_arr[2][2] = 5;
+		 test_arr[0][0] = 8;
+		 test_arr[1][0] = 4;
+		 test_arr[2][0] = 7;
+		 test_arr[0][1] = 1;
+		 test_arr[1][1] = 0;
+		 test_arr[2][1] = 6;
+		 test_arr[0][2] = 3;
+		 test_arr[1][2] = 2;
+		 test_arr[2][2] = 5;
 
-		test_arr[0][0] = 1;
-		test_arr[1][0] = 4;
-		test_arr[2][0] = 7;
-		test_arr[0][1] = 0;
-		test_arr[1][1] = 5;
-		test_arr[2][1] = 8;
-		test_arr[0][2] = 3;
-		test_arr[1][2] = 6;
-		test_arr[2][2] = 2;
+//		test_arr[0][0] = 1;
+//		test_arr[1][0] = 4;
+//		test_arr[2][0] = 7;
+//		test_arr[0][1] = 0;
+//		test_arr[1][1] = 5;
+//		test_arr[2][1] = 8;
+//		test_arr[0][2] = 3;
+//		test_arr[1][2] = 6;
+//		test_arr[2][2] = 2;
+//		
+		In in = new In(args[0]);
+	    int n = in.readInt();
+	    int[][] blocks = new int[n][n];
+	    for (int i = 0; i < n; i++)
+	        for (int j = 0; j < n; j++)
+	            blocks[i][j] = in.readInt();
+	    Board initial = new Board(blocks);
 
-		// int[][] test_arr = new int[2][2];
-		// test_arr[0][0] = 1;
-		// test_arr[0][1] = 0;
-		// test_arr[1][0] = 3;
-		// test_arr[1][1] = 4;
-		//
-		Board a = new Board(test_arr);
+	    // solve the puzzle
+	    System.out.println(initial.toString());
+	    System.out.println(initial.manhattan());
 
-//		System.out.println(a.toString());
-//		System.out.println(a.twin().toString());
 
 	}
 
