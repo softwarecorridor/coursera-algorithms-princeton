@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdOut;
+
 public class Board {
 
 	private int[][] currentBoard;
@@ -274,6 +277,7 @@ public class Board {
 	    Board b = new Board(test_arr2);
 	    
 	    System.out.print(a.equals(b));
+
 
 
 	}
