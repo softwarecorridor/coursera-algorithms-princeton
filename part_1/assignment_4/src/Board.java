@@ -68,7 +68,7 @@ public class Board {
 			}*/
 			
 		}
-		System.out.print("\n");
+//		System.out.print("\n");
 		return counter;
 	}
 
