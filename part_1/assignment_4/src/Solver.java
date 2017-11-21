@@ -149,7 +149,7 @@ public class Solver {
 	 */
 	public int moves()
 	{
-		return mainPriorityQueue.size();
+		return mainNodeList.size();
 	}
 	
 	/**
