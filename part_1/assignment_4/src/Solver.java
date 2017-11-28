@@ -149,7 +149,13 @@ public class Solver {
 	 */
 	public int moves()
 	{
-		return mainNodeList.size();
+		
+		if(!isSolvable())
+		{
+			return -1;
+		}
+		// omit one becuase the solution is contained in the nodelist.
+		return mainNodeList.size()-1;
 	}
 	
 	/**
