@@ -2,22 +2,13 @@ import java.util.ArrayList;
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.MinPQ;
+import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdOut;
 
 public class Solver {
 	
-	private MinPQ<Node> mainPriorityQueue = new MinPQ<>();
-	private MinPQ<Node> twinPriorityQueue = new MinPQ<>();
 	
-	/**
-	 * find a solution to the initial board (using the A* algorithm)
-	 * @param initial
-	 */
-	private ArrayList<Board> mainNodeList = new ArrayList<>();
-	private ArrayList<Board> twinNodeList = new ArrayList<>();
-	
-	private boolean isSolvable;
-	
+	private Node goalNode = null;
 	private class Node implements Comparable<Node>
 	{
 		private Board b;
@@ -71,6 +62,11 @@ public class Solver {
 		
 	}
 	
+	/**
+	 * find a solution to the initial board (using the A* algorithm)
+	 * @param initial
+	 */
+	
 	public Solver(Board initial)
 	{
 		bestFirstSearch(initial);
@@ -82,6 +78,9 @@ public class Solver {
 	private void bestFirstSearch(Board initial)
 	{
 		
+		
+		MinPQ<Node> mainPriorityQueue = new MinPQ<>();
+		MinPQ<Node> twinPriorityQueue = new MinPQ<>();
 		// have two boards initial and twin of initial
 		Board twin = initial.twin();
 //		System.out.println(twin.toString());
@@ -99,17 +98,12 @@ public class Solver {
 //		delete from the priority queue the search node with the minimum priority (those that can be reached in one move from the dequeued search node). 
 		
 		Node mainDequeueNode = mainPriorityQueue.delMin();
-		mainNodeList.add(mainDequeueNode.b);
-		
 		Node twinDequeueNode = twinPriorityQueue.delMin();
-		twinNodeList.add(twinDequeueNode.b);
 		
 
 		while(!mainDequeueNode.isGoal() && !twinDequeueNode.isGoal())
 		{
 			
-			//TODO: do each step of the boards at the same time
-			//TODO: if twin is the goal then the board is unsolveable
 			
 			move++;
 //			insert onto the priority queue all neighboring search nodes 
@@ -134,15 +128,16 @@ public class Solver {
 			}
 			
 			mainDequeueNode = mainPriorityQueue.delMin();
-			mainNodeList.add(mainDequeueNode.b);
 			twinDequeueNode = twinPriorityQueue.delMin();
-			twinNodeList.add(twinDequeueNode.b);
 			
 			
 		}
 
 		// Exactly one of the two will lead to the goal board. 
-		isSolvable = !twinDequeueNode.isGoal();
+		if  (mainDequeueNode.isGoal())
+		{
+			goalNode = mainDequeueNode;
+		}
 		
 	}
 	
@@ -152,7 +147,7 @@ public class Solver {
 	 */
 	public boolean isSolvable()
 	{
-		return isSolvable;
+		return goalNode!=null;
 	}
 	
 	/**
@@ -167,7 +162,7 @@ public class Solver {
 			return -1;
 		}
 		// omit one becuase the solution is contained in the nodelist.
-		return mainNodeList.size()-1;
+		return goalNode.move;
 	}
 	
 	/**
@@ -176,7 +171,14 @@ public class Solver {
 	 */
 	public Iterable<Board> solution()
 	{
-		return mainNodeList;
+		Stack<Board> resultStack = new Stack<>();
+		Node currentNode = goalNode;
+		while(currentNode!=null)
+		{
+			resultStack.push(currentNode.b);
+			currentNode = currentNode.predecessor;
+		}
+		return resultStack;
 	}
 
 	/**
