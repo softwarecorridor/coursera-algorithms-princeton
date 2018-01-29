@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Stack;
@@ -16,11 +14,12 @@ public class Solver {
 		private Node predecessor = null;
 		private int manhattanDistance = 0;
 		
-		public Node(Board currentBoard, int moveNumber, Node previousBoard)
+		public Node(Board currentBoard, Node previousBoard)
 		{
 			b = currentBoard;
-			move = moveNumber;
 			predecessor = previousBoard;
+			if (predecessor!=null)
+				move = predecessor.getMoveCount() + 1;
 			
 			manhattanDistance = b.manhattan();
 		}
@@ -86,9 +85,8 @@ public class Solver {
 //		System.out.println(twin.toString());
 		
 //		First, insert the initial search node (the initial board, 0 moves, and a null predecessor search node) into a priority queue.
-		int move = 0;
-		Node initialNode = new Node(initial, move, null);
-		Node twinNode = new Node(twin, move, null);
+		Node initialNode = new Node(initial,  null);
+		Node twinNode = new Node(twin,  null);
 		
 		
 		mainPriorityQueue.insert(initialNode);
@@ -104,14 +102,12 @@ public class Solver {
 		while(!mainDequeueNode.isGoal() && !twinDequeueNode.isGoal())
 		{
 			
-			
-			move++;
 //			insert onto the priority queue all neighboring search nodes 
 			for(Board b : mainDequeueNode.neighbors())
 			{
 				if(mainDequeueNode.predecessor == null || !b.equals(mainDequeueNode.predecessor.b))
 				{
-					Node newNode = new Node(b,move,mainDequeueNode);
+					Node newNode = new Node(b,mainDequeueNode);
 //					System.out.println(b.toString());
 					mainPriorityQueue.insert(newNode);
 				}
@@ -122,7 +118,7 @@ public class Solver {
 			{
 				if(twinDequeueNode.predecessor == null || !twinB.equals(twinDequeueNode.predecessor.b))
 				{
-					Node newNode = new Node(twinB,move,twinDequeueNode);
+					Node newNode = new Node(twinB, twinDequeueNode);
 					twinPriorityQueue.insert(newNode);
 				}
 			}
