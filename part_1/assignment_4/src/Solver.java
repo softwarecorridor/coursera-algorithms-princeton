@@ -23,12 +23,15 @@ public class Solver {
 		private Board b;
 		private int move = 0;
 		private Node predecessor = null;
+		private int manhattanDistance = 0;
 		
 		public Node(Board currentBoard, int moveNumber, Node previousBoard)
 		{
 			b = currentBoard;
 			move = moveNumber;
 			predecessor = previousBoard;
+			
+			manhattanDistance = b.manhattan();
 		}
 		
 		public boolean isGoal()
@@ -40,20 +43,25 @@ public class Solver {
 		{
 			return b.neighbors();
 		}
+		
+		public int getPriority()
+		{
+			return move + manhattanDistance;
+		}
 
 
 		@Override
 		public int compareTo(Node o) {
-			// TODO Auto-generated method stub
-			if(b.hamming() > o.b.hamming())
+			if(getPriority() > o.getPriority())
 			{
 				return 1;
 			}
 			
-			if(b.hamming() < o.b.hamming())
+			if(getPriority() < o.getPriority())
 			{
 				return -1;
 			}
+			
 			return 0;
 		}
 		
