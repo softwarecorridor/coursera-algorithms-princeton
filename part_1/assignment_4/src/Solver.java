@@ -48,7 +48,11 @@ public class Solver {
 		{
 			return move + manhattanDistance;
 		}
-
+		
+		public int getMoveCount()
+		{
+			return move;
+		}
 
 		@Override
 		public int compareTo(Node o) {
