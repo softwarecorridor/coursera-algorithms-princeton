@@ -390,5 +390,21 @@ class TestKdTree {
 		assertEquals(expected, result);
 	}
 	
+	@Test
+	void test_circle10Insert()
+	{
+		KdTree kdTree = new KdTree();
+		kdTree.insert(new Point2D(0.206107, 0.095492));
+		kdTree.insert(new Point2D(0.975528, 0.654508));
+		kdTree.insert(new Point2D(0.024472, 0.345492));
+		kdTree.insert(new Point2D(0.793893, 0.095492));
+		kdTree.insert(new Point2D(0.793893, 0.904508));
+		kdTree.insert(new Point2D(0.975528, 0.345492));
+		kdTree.insert(new Point2D(0.206107, 0.904508));
+		kdTree.insert(new Point2D(0.500000, 0.000000));
+		kdTree.insert(new Point2D(0.024472, 0.654508));
+		kdTree.insert(new Point2D(0.500000, 1.000000));
+	}
+	
 	
 }
