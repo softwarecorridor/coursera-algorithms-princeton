@@ -114,9 +114,7 @@ public class KdTree {
 			}else
 			{
 				// compare the point we are searching for to the current node
-				int currentDepth = currentNode.depth;
 				double currentKey = currentNode.isVertical ? point2d.x() : point2d.y();
-				
 				
 				// go left if less
 				if(currentKey < currentNode.getKey())
@@ -228,13 +226,13 @@ public class KdTree {
 		double currentClosestDistance = Double.MAX_VALUE;
 		if(closest!=null)
 		{
-			currentClosestDistance = closestPoint.distanceTo(targetPoint);
+			currentClosestDistance = closestPoint.distanceSquaredTo(targetPoint);
 		}
 		
-		if (targetPoint.distanceTo(node.value) < currentClosestDistance)
+		if (targetPoint.distanceSquaredTo(node.value) < currentClosestDistance)
 		{
 			closest = node.value;
-			currentClosestDistance = targetPoint.distanceTo(node.value);
+			currentClosestDistance = targetPoint.distanceSquaredTo(node.value);
 		}
 		
 		RectHV leftSquare = null;
@@ -251,7 +249,7 @@ public class KdTree {
 		
 		if(leftSquare != null)
 		{
-			if(leftSquare.distanceTo(closest) < currentClosestDistance)
+			if(leftSquare.distanceSquaredTo(closest) < currentClosestDistance)
 			{
 				closest = findNearest(node.left, targetPoint, closest, leftSquare);
 			}
@@ -259,7 +257,7 @@ public class KdTree {
 		
 		if(rightSquare != null)
 		{
-			if(rightSquare.distanceTo(closest) < currentClosestDistance)
+			if(rightSquare.distanceSquaredTo(closest) < currentClosestDistance)
 			{
 				closest = findNearest(node.right, targetPoint, closest, rightSquare);
 			}
