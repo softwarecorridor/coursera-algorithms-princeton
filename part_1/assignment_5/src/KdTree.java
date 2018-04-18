@@ -159,7 +159,7 @@ public class KdTree {
 		if(rootNode != null)
 		{
 			Node searchNode = rootNode;
-			rangeSearch(searchNode, rectHV, rootNode.region, results);
+			rangeSearch(searchNode, rectHV, searchNode.region, results);
 		}
 		
 		return results;
@@ -226,8 +226,11 @@ public class KdTree {
 		
 		
 		Point2D closestPoint = null;
-		Node searchNode = rootNode;
-		closestPoint = findNearest(searchNode, point2d, closestPoint, new RectHV(Double.MIN_VALUE, Double.MIN_VALUE, Double.MAX_VALUE, Double.MAX_VALUE));
+		if(rootNode != null)
+		{
+			Node searchNode = rootNode;
+			closestPoint = findNearest(searchNode, point2d, closestPoint, searchNode.region);
+		}
 		return closestPoint;
 	}
 	
@@ -256,29 +259,13 @@ public class KdTree {
 		RectHV leftSquare = null;
 		if(node.left != null)
 		{
-			double key = node.getKey();
-			if(node.isVertical) // Horizontal partitioning 
-			{
-				leftSquare = new RectHV(region.xmin(), region.ymin(), key, region.ymax()) ;
-			}else // Vertical partitioning 
-			{
-				leftSquare = new RectHV(region.xmin(), region.ymin(),  region.xmax(), key) ;
-			}
-			
-			
+			leftSquare = node.left.region;
 		}
 		RectHV rightSquare = null;
 		
 		if(node.right != null)
 		{
-			double key = node.getKey();
-			if(node.isVertical) // Horizontal partitioning 
-			{
-				rightSquare = new RectHV(key, region.ymin(), region.xmax(), region.ymax()) ;
-			}else // Vertical partitioning 
-			{
-				rightSquare = new RectHV(region.xmin(), key,  region.xmax(), region.ymax()) ;
-			}
+			rightSquare = node.right.region;
 		}
 		
 		if(leftSquare != null)
