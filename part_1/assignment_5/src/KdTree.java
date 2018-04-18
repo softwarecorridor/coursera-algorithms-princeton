@@ -155,11 +155,13 @@ public class KdTree {
 		 * if it might contain a point contained in the query rectangle
 		 */
 		
-		
-		
 		SET<Point2D> results = new SET<Point2D>();
-		Node searchNode = rootNode;
-		rangeSearch(searchNode, rectHV, new RectHV(Double.MIN_VALUE, Double.MIN_VALUE, Double.MAX_VALUE, Double.MAX_VALUE), results);
+		if(rootNode != null)
+		{
+			Node searchNode = rootNode;
+			rangeSearch(searchNode, rectHV, rootNode.region, results);
+		}
+		
 		return results;
 	}
 	
@@ -180,34 +182,14 @@ public class KdTree {
 			
 			if(node.left != null)
 			{
-				double key = node.getKey();
-				if(node.isVertical) // Horizontal partitioning 
-				{
-					region = new RectHV(region.xmin(), region.ymin(), key, region.ymax()) ;
-				}else // Vertical partitioning 
-				{
-					region = new RectHV(region.xmin(), region.ymin(),  region.xmax(), key) ;
-				}
-				
-				rangeSearch(node.left, searchRange, region, results);
+				rangeSearch(node.left, searchRange, node.left.region, results);
 			}
 			if(node.right != null)
 			{
-				double key = node.getKey();
-				if(node.isVertical) // Horizontal partitioning 
-				{
-					region = new RectHV(key, region.ymin(), region.xmax(), region.ymax()) ;
-				}else // Vertical partitioning 
-				{
-					region = new RectHV(region.xmin(), key,  region.xmax(), region.ymax()) ;
-				}
-				
-				rangeSearch(node.right, searchRange, region, results);
+				rangeSearch(node.right, searchRange, node.right.region, results);
 			}
 			
 		}
-		
-		
 	}
 	
 
