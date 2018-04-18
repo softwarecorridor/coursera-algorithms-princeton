@@ -73,7 +73,7 @@ public class KdTree {
 			
 		}
 		
-		
+		kdNode.size = 1 + size(kdNode.left) + size(kdNode.right);
 		return kdNode;
 	}
 
@@ -90,7 +90,7 @@ public class KdTree {
 			return 0;
 		}else
 		{
-			return 1 + size(kdNode.left) + size(kdNode.right);
+			return kdNode.size;
 		}
 		
 	}
@@ -281,12 +281,11 @@ public class KdTree {
 		private boolean isVertical;
 		private RectHV region;
 		private Node left, right = null;
-		int depth = 0;
+		private int size = 1;
 		
 		public Node (Point2D point2d, int depth)
 		{
 			setValue(point2d);
-			this.depth = depth;
 			this.isVertical = depth % 2 == 0;
 		}
 		
