@@ -224,6 +224,23 @@ class TestKdTree {
 	}
 	
 	/**
+	 * Test the case where there are many items in the set and the point is in the set. #contains(..) should return true.
+	 */
+	@Test
+	void test_containsManyItemFoundInput5() {
+		KdTree kdTree = new KdTree();
+		kdTree.insert(new Point2D(0.7, 0.2));
+		kdTree.insert(new Point2D(0.5, 0.4));
+		kdTree.insert(new Point2D(0.2, 0.3));
+		kdTree.insert(new Point2D(0.4, 0.7));
+		kdTree.insert(new Point2D(0.9, 0.6));
+		boolean result = kdTree.contains(new Point2D(0.2, 0.3));
+		boolean expected = true;
+		assertEquals(expected, result);
+	}
+	
+	
+	/**
 	 * Test the case where there are no items in the set.
 	 */
 	@Test

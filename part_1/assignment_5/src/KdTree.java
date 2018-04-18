@@ -40,7 +40,7 @@ public class KdTree {
 			return n;
 		}
 		
-		double nodeKey = kdNode.isVertical ? kdNode.value.x() :  point2d.y();
+		double nodeKey = kdNode.isVertical ? kdNode.value.x() :  kdNode.value.y();
 		double pointKey = kdNode.isVertical ? point2d.x() : point2d.y();
 		
 		if (pointKey < nodeKey)
