@@ -30,20 +30,45 @@ public class KdTree {
 		if(kdNode == null)
 		{
 			
-			return new Node(point2d, depth);
+			Node n = new Node(point2d, depth);
+			if(depth == 0)
+			{
+				n.region = new RectHV(Double.MIN_VALUE,Double.MIN_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
+//				n.region = new RectHV(0, 0, 20, 20);
+			}
+			
+			return n;
 		}
 		
-		int nodeDepth = kdNode.depth;
-		double nodeKey = kdNode.getKey();
-		double pointKey = isEven(nodeDepth) ? point2d.x() : point2d.y();
+		double nodeKey = kdNode.isVertical ? kdNode.value.x() :  point2d.y();
+		double pointKey = kdNode.isVertical ? point2d.x() : point2d.y();
 		
 		if (pointKey < nodeKey)
 		{
 			kdNode.left = put(kdNode.left, point2d, ++depth);
+			if(kdNode.isVertical)
+			{
+				kdNode.left.region = new RectHV(kdNode.region.xmin(), kdNode.region.ymin(),  kdNode.getKey(),  kdNode.region.ymax());
+			}else
+			{
+				
+				kdNode.left.region = new RectHV(kdNode.region.xmin(), kdNode.region.ymin(),  kdNode.region.xmax(),  kdNode.getKey());
+			}
+			
+			
 		}else
 		{
 			kdNode.right = put(kdNode.right, point2d, ++depth);
+			if(kdNode.isVertical)
+			{
+				kdNode.right.region = new RectHV(kdNode.getKey(), kdNode.region.ymin(),  kdNode.region.xmax(),  kdNode.region.ymax());
+			}else
+			{
+				kdNode.right.region = new RectHV(kdNode.region.xmin(), kdNode.getKey(),  kdNode.region.xmax(),  kdNode.region.ymax());
+			}
+			
 		}
+		
 		
 		return kdNode;
 	}
@@ -90,7 +115,7 @@ public class KdTree {
 			{
 				// compare the point we are searching for to the current node
 				int currentDepth = currentNode.depth;
-				double currentKey = isEven(currentDepth) ? point2d.x() : point2d.y();
+				double currentKey = currentNode.isVertical ? point2d.x() : point2d.y();
 				
 				
 				// go left if less
@@ -156,7 +181,7 @@ public class KdTree {
 			if(node.left != null)
 			{
 				double key = node.getKey();
-				if(isEven(node.depth)) // Horizontal partitioning 
+				if(node.isVertical) // Horizontal partitioning 
 				{
 					region = new RectHV(region.xmin(), region.ymin(), key, region.ymax()) ;
 				}else // Vertical partitioning 
@@ -169,7 +194,7 @@ public class KdTree {
 			if(node.right != null)
 			{
 				double key = node.getKey();
-				if(isEven(node.depth)) // Horizontal partitioning 
+				if(node.isVertical) // Horizontal partitioning 
 				{
 					region = new RectHV(key, region.ymin(), region.xmax(), region.ymax()) ;
 				}else // Vertical partitioning 
@@ -250,7 +275,7 @@ public class KdTree {
 		if(node.left != null)
 		{
 			double key = node.getKey();
-			if(isEven(node.depth)) // Horizontal partitioning 
+			if(node.isVertical) // Horizontal partitioning 
 			{
 				leftSquare = new RectHV(region.xmin(), region.ymin(), key, region.ymax()) ;
 			}else // Vertical partitioning 
@@ -265,7 +290,7 @@ public class KdTree {
 		if(node.right != null)
 		{
 			double key = node.getKey();
-			if(isEven(node.depth)) // Horizontal partitioning 
+			if(node.isVertical) // Horizontal partitioning 
 			{
 				rightSquare = new RectHV(key, region.ymin(), region.xmax(), region.ymax()) ;
 			}else // Vertical partitioning 
@@ -301,6 +326,8 @@ public class KdTree {
 	private class Node{
 		private double[] key; // will alternate between x and y of the point depending on the level
 		private Point2D value;
+		private boolean isVertical;
+		private RectHV region;
 		private Node left, right = null;
 		int depth = 0;
 		
@@ -308,31 +335,18 @@ public class KdTree {
 		{
 			setValue(point2d);
 			this.depth = depth;
+			this.isVertical = depth % 2 == 0;
 		}
 		
 		public double getKey()
 		{
-			if( KdTree.isEven(depth) )
-			{
-				return key[0];
-			}else
-			{
-				return key[1];
-			}
+			return key[isVertical ? 0 : 1];
 		}
 		
-		public void setValue(Point2D point2d)
+		private void setValue(Point2D point2d)
 		{
 			this.key = new double[]{point2d.x(), point2d.y()};
 			this.value = point2d;
 		}
-		
-		
-		
-	}
-	
-	private static boolean isEven(int num)
-	{
-		return num % 2 == 0;
 	}
 }
