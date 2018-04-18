@@ -192,25 +192,6 @@ public class KdTree {
 		}
 	}
 	
-
-	
-
-
-//	private void inorderTransversal(Node node, SET<Point2D> pointSet, RectHV rectHV) {
-//		if(node == null)
-//		{
-//			return;
-//		}
-//		
-//		if(rectHV.contains(node.value))
-//		{
-//			pointSet.add(node.value);
-//		}
-//		inorderTransversal(node.left, pointSet, rectHV);
-//		inorderTransversal(node.right, pointSet, rectHV);
-//		
-//	}
-	
 	public void draw() {}
 
 	/**
