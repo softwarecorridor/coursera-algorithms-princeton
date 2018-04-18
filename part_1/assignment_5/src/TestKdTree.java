@@ -120,6 +120,43 @@ class TestKdTree {
 	}
 	
 	/**
+	 * Test the case where duplicate items exist in a small sample
+	 */
+	@Test
+	void test_sizeDuplicateSmall() {
+		KdTree kdTree = new KdTree();
+		kdTree.insert(new Point2D(1,1));
+		kdTree.insert(new Point2D(1,1));
+		
+		int result = kdTree.size();
+		int expected = 1;
+		assertEquals(expected, result);
+	}
+	
+	/**
+	 * Test the case where duplicate items exist in a large sample
+	 */
+	@Test
+	void test_sizeDuplicateLarge() {
+		KdTree kdTree = new KdTree();
+		kdTree.insert(new Point2D(1,1));
+		kdTree.insert(new Point2D(10,12));
+		kdTree.insert(new Point2D(1,4));
+		kdTree.insert(new Point2D(0,0));
+		kdTree.insert(new Point2D(.5,.6));
+		kdTree.insert(new Point2D(22,1));
+		kdTree.insert(new Point2D(212311,13131));
+		kdTree.insert(new Point2D(1,1));
+		
+		int result = kdTree.size();
+		int expected = 7;
+		assertEquals(expected, result);
+	}
+	
+	
+	
+	
+	/**
 	 * Test the case where there are no items in the set. #contains(..) should return false.
 	 */
 	@Test

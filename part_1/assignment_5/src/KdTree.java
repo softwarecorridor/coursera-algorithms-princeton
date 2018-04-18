@@ -58,14 +58,18 @@ public class KdTree {
 			
 		}else
 		{
-			kdNode.right = put(kdNode.right, point2d, ++depth);
-			if(kdNode.isVertical)
+			if(!kdNode.value.equals(point2d))
 			{
-				kdNode.right.region = new RectHV(kdNode.getKey(), kdNode.region.ymin(),  kdNode.region.xmax(),  kdNode.region.ymax());
-			}else
-			{
-				kdNode.right.region = new RectHV(kdNode.region.xmin(), kdNode.getKey(),  kdNode.region.xmax(),  kdNode.region.ymax());
+				kdNode.right = put(kdNode.right, point2d, ++depth);
+				if(kdNode.isVertical)
+				{
+					kdNode.right.region = new RectHV(kdNode.getKey(), kdNode.region.ymin(),  kdNode.region.xmax(),  kdNode.region.ymax());
+				}else
+				{
+					kdNode.right.region = new RectHV(kdNode.region.xmin(), kdNode.getKey(),  kdNode.region.xmax(),  kdNode.region.ymax());
+				}
 			}
+			
 			
 		}
 		
