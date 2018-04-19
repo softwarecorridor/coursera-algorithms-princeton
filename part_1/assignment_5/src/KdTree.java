@@ -212,64 +212,54 @@ public class KdTree {
 		if(rootNode != null)
 		{
 			Node searchNode = rootNode;
-			closestPoint = findNearest(searchNode, point2d, closestPoint, searchNode.region);
+			closestPoint = findNearest(searchNode, point2d, closestPoint);
 		}
 		return closestPoint;
 	}
 	
-	private Point2D findNearest(Node node, Point2D targetPoint, Point2D closestPoint, RectHV region)
+	
+	private Point2D findNearest(Node node, Point2D targetPoint, Point2D closestPoint)
 	{
-		Point2D closest = closestPoint;
 		
 		if (node == null)
 		{
-			return closest;
+			return closestPoint;
 		}
 		
-		// check to see if the current Node is closer than the old closest.
-		double currentClosestDistance = Double.MAX_VALUE;
-		if(closest!=null)
+		// check distance from target to point at node
+		if(closestPoint == null)
 		{
-			currentClosestDistance = closestPoint.distanceSquaredTo(targetPoint);
-		}
-		
-		if (targetPoint.distanceSquaredTo(node.value) < currentClosestDistance)
+			closestPoint = node.value;
+		}else if(node.value.distanceSquaredTo(targetPoint) < closestPoint.distanceSquaredTo(targetPoint))
 		{
-			closest = node.value;
-			currentClosestDistance = targetPoint.distanceSquaredTo(node.value);
+			closestPoint = node.value;
 		}
 		
-		RectHV leftSquare = null;
+		double leftDistance = Double.MAX_VALUE;
 		if(node.left != null)
 		{
-			leftSquare = node.left.region;
+			leftDistance = node.left.region.distanceSquaredTo(targetPoint);
 		}
-		RectHV rightSquare = null;
 		
+		double rightDistance = Double.MAX_VALUE;
 		if(node.right != null)
 		{
-			rightSquare = node.right.region;
+			rightDistance = node.right.region.distanceSquaredTo(targetPoint);
 		}
 		
-		if(leftSquare != null)
+		if(leftDistance<rightDistance)
 		{
-			if(leftSquare.distanceSquaredTo(closest) < currentClosestDistance)
-			{
-				closest = findNearest(node.left, targetPoint, closest, leftSquare);
-			}
-		}
-		
-		if(rightSquare != null)
+			closestPoint = findNearest(node.left, targetPoint, closestPoint);
+			closestPoint = findNearest(node.right, targetPoint, closestPoint);
+		}else
 		{
-			if(rightSquare.distanceSquaredTo(closest) < currentClosestDistance)
-			{
-				closest = findNearest(node.right, targetPoint, closest, rightSquare);
-			}
+			closestPoint = findNearest(node.right, targetPoint, closestPoint);
+			closestPoint = findNearest(node.left, targetPoint, closestPoint);
 		}
 		
-
-		return closest;
-						
+		
+		return closestPoint;
+		
 	}
 	
 	

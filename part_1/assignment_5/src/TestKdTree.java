@@ -444,6 +444,29 @@ class TestKdTree {
 		assertEquals(expected, result);
 	}
 	
+	/**
+	 * Test the case where there are many points in the set.
+	 */
+	@Test
+	void test_nearestManyEntriesInput10()
+	{
+		KdTree kdTree = new KdTree();
+		kdTree.insert(new Point2D( 0.372, 0.497));
+		kdTree.insert(new Point2D(0.564, 0.413));
+		kdTree.insert(new Point2D(0.226, 0.577));
+		kdTree.insert(new Point2D(0.144, 0.179));
+		kdTree.insert(new Point2D(0.083, 0.51));
+		kdTree.insert(new Point2D( 0.32, 0.708));
+		kdTree.insert(new Point2D(0.417, 0.362));
+		kdTree.insert(new Point2D(0.862, 0.825));
+		kdTree.insert(new Point2D(0.785, 0.725));
+		kdTree.insert(new Point2D(0.499, 0.208));
+		
+		Point2D result = kdTree.nearest(new Point2D(0.342, 0.006));
+		Point2D expected = new Point2D(0.499, 0.208);
+		assertEquals(expected, result);
+	}
+	
 	@Test
 	void test_circle10Insert()
 	{
